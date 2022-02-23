@@ -50,15 +50,15 @@ router.post("/login", function(req, res, next) {
         users.render(req, res, "Preencha o campo e-mail.");
     } else if(!req.body.password) {
         users.render(req, res, "Preencha o campo senha.");
-    } else {console.log(req.body);
+    } else {
         users.login(req.body.email, req.body.password).then(user => {
-            console.log(user)
+            
             req.session.user = user;
 
             res.redirect("/admin");
 
         }).catch(err => {
-            console.log(err)
+            
             users.render(req, res, err.message || err);
 
         });
@@ -92,6 +92,18 @@ router.get("/menus", function(req, res, next) {
             data
         }));
 
+    });
+
+});
+
+router.post("/menus", function(req, res, next) {
+
+    menus.save(req.fields, req.files).then(results => {
+
+        res.send(results);
+
+    }).catch(err => {
+        res.send(err);
     });
 
 });
