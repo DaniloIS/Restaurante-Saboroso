@@ -1,5 +1,4 @@
-const req = require("express/lib/request");
-var conn = require("./db");
+let conn = require('./db');
 
 module.exports = {
 
@@ -13,13 +12,13 @@ module.exports = {
     },
 
     login(email, password) {
-
+        console.log(email, password)
         return new Promise((resolve, reject) => {
 
             conn.query(`SELECT * FROM tb_users WHERE email = ?`, [
                 email
-            ]), (err, results) => {
-
+            ], (err, results) => {
+                    
                 if(err) {
                     reject(err);
                 } else {
@@ -37,8 +36,9 @@ module.exports = {
                     }
 
                 }
-
-            };
+            
+                }
+            );
         });
 
     }
