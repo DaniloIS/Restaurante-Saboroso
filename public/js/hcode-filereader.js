@@ -22,7 +22,7 @@ class HcodeFileReader {
     }
 
     reader(file) {
-
+        console.log(file)
         return new Promise((resolve, reject) => {
 
             let reader = new FileReader();
