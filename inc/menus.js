@@ -24,11 +24,11 @@ module.exports = {
     },
 
     save(fields, files) {
-
+    
       return Promise((resolve, reject) => {
-console.log(fields, files)
-        fields.photo = `images/${path.parse(files.photo.path).base}`;
-        
+
+        let photo = `images/${path.parse(files.photo.path).base}`;
+        console.log('SAVE FIELDS', fields.photo)
         conn.query(`
           INSERT INTO tb_menus (title, description, price, photo)
           VALUES(?, ?, ?, ?)
@@ -36,7 +36,7 @@ console.log(fields, files)
             fields.title,
             fields.description,
             fields.price,
-            fields.photo
+            photo
         ], (err, results) => {
 
           if(err) {

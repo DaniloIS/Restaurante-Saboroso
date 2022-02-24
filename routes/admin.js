@@ -4,7 +4,7 @@ var admin = require('./../inc/admin');
 var menus = require('./../inc/menus');
 var router = express.Router();
 
-router.use(function(req, res, next) {
+/*router.use(function(req, res, next) {
 
     if(['/login'].indexOf(req.url) === -1 && !req.session.user) {
         res.redirect("/admin/login");
@@ -12,7 +12,7 @@ router.use(function(req, res, next) {
       next(); 
     }
     
-});
+});*/
 
 router.use(function(req, res, next) {
 
@@ -51,6 +51,7 @@ router.post("/login", function(req, res, next) {
     } else if(!req.body.password) {
         users.render(req, res, "Preencha o campo senha.");
     } else {
+        console.log(req.body)
         users.login(req.body.email, req.body.password).then(user => {
             
             req.session.user = user;
@@ -97,9 +98,9 @@ router.get("/menus", function(req, res, next) {
 });
 
 router.post("/menus", function(req, res, next) {
-
+    
     menus.save(req.fields, req.files).then(results => {
-
+        console.log('RESULTS', results)
         res.send(results);
 
     }).catch(err => {

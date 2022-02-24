@@ -6,7 +6,6 @@ var logger = require('morgan');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var formidable = require('formidable');
-var path = require('path');
 
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
