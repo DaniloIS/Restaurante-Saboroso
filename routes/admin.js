@@ -3,6 +3,7 @@ var users = require('./../inc/users');
 var admin = require('./../inc/admin');
 var menus = require('./../inc/menus');
 var reservations = require('./../inc/reservations');
+var users = require('./../inc/users');
 var moment = require('moment');
 var router = express.Router();
 
@@ -38,7 +39,7 @@ router.get("/", function(req, res, next) {
 
     admin.dashboard().then(data => {
 
-        res.render("admin/index", admin.gerParams(req, { data }));
+        res.render("admin/index", admin.getParams(req, { data }));
 
     }).catch(err => {
 
@@ -79,13 +80,13 @@ router.get("/login", function(req, res, next) {
 
 router.get("/contacts", function(req, res, next) {
 
-    res.render("admin/contacts", admin.gerParams(req));
+    res.render("admin/contacts", admin.getParams(req));
 
 });
 
 router.get("/emails", function(req, res, next) {
 
-    res.render("admin/emails", admin.gerParams(req));
+    res.render("admin/emails", admin.getParams(req));
 
 });
 
@@ -93,7 +94,7 @@ router.get("/menus", function(req, res, next) {
 
     menus.getMenus().then(data => {
 
-        res.render("admin/menus", admin.gerParams(req, {
+        res.render("admin/menus", admin.getParams(req, {
             data
         }));
 
@@ -127,7 +128,7 @@ router.get("/reservations", function(req, res, next) {
 
     reservations.getReservations().then(data => {
 
-        res.render("admin/reservations", admin.gerParams(req, {
+        res.render("admin/reservations", admin.getParams(req, {
             date: {},
             data,
             moment
@@ -161,7 +162,31 @@ router.delete("/reservations/:id", function(req, res, next) {
 
 router.get("/users", function(req, res, next) {
 
-    res.render("admin/users", admin.gerParams(req));
+    users.getUsers().then(data => {
+        res.render("admin/users", admin.getParams(req, {
+            data
+        }));
+    });
+
+});
+
+router.post("/users", function(req, res, next) {
+
+    users.save(req.fields).then(results => {
+        res.send(results);
+    }).catch(err => {
+        res.send(err);
+    });
+
+});
+
+router.delete("/users/:id", function(req, res, next) {
+
+    users.delete(req.params.id).then(results => {
+        res.send(results);
+    }).catch(err => {
+        res.send(err);
+    });
 
 });
 

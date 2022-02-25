@@ -26,7 +26,7 @@ module.exports = {
 
     },
 
-    gerParams(req, params) {
+    getParams(req, params) {
 
         return Object.assign({}, {
             menus: req.menus,

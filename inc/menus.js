@@ -70,7 +70,7 @@ module.exports = {
         }
         
         conn.query(query, params, (err, results) => {
-          console.log(results)
+          
           if(err) {
             reject(err);
           } else {
