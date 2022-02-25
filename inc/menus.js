@@ -25,7 +25,7 @@ module.exports = {
 
     save(fields, files) {
       
-      return Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         
         fields.photo = `images/${path.parse(files.photo.path).base}`;
 
@@ -45,12 +45,13 @@ module.exports = {
         if(parseInt(fields.id) > 0) {
 
           params.push(fields.id);
-
+          
           query = `
             UPDATE tb_menus
-            SET title = ?
+            SET 
+                title = ?,
                 description = ?,
-                price = ?,
+                price = ?
                 ${queryPhoto}
             WHERE id = ?
           `;
@@ -69,7 +70,7 @@ module.exports = {
         }
         
         conn.query(query, params, (err, results) => {
-
+          console.log(results)
           if(err) {
             reject(err);
           } else {
