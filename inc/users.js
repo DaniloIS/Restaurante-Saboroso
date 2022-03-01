@@ -110,8 +110,8 @@ module.exports = {
     },
 
     changePassword(req) {
-
-      return new Promise((resovle, reject) => {
+      console.log(req)
+      return new Promise((resolve, reject) => {
 
         if(!req.fields.password) {
 

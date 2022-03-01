@@ -21,7 +21,7 @@ class HcodeGrid {
             afterFormUpdateError:(e) => {
                 alert('Não foi possível enviar o formulário.');
             }
-        });
+        }, configs.listeners);
 
         this.options = Object.assign({}, {
             formCreate: '#modal-create form',
@@ -45,28 +45,34 @@ class HcodeGrid {
 
         this.formCreate = document.querySelector(this.options.formCreate);
 
-        this.formCreate.save().then(json => {
-
-            this.fireEvent('afterFormCreate');
-
-        }).catch(err => {
-            this.fireEvent('afterFormCreateError');
-        });
+        if(this.formCreate) {
+            this.formCreate.save({
+                success:()=>{
+                    this.fireEvent('afterFormCreate');
+                },
+                failure:()=>{
+                    this.fireEvent('afterFormCreateError');
+                }
+            });
+        }
 
         this.formUpdate = document.querySelector(this.options.formUpdate);
 
-        this.formUpdate.save().then(json => {
-
-            this.fireEvent('afterFormUpdate');
-
-        }).catch(err => {
-            this.fireEvent('afterFormUpdateError');
-        });
+        if(this.formUpdate) {
+            this.formUpdate.save({
+                success:()=>{
+                    this.fireEvent('afterFormUpdate');
+                },
+                failure:()=>{
+                    this.fireEvent('afterFormUpdateError');
+                }
+            });
+        }
 
     }
 
     fireEvent(name, args) {
-
+        
         if(typeof this.options.listeners[name] === 'function') this.options.listeners[name].apply(this, args)
 
     }
@@ -137,7 +143,6 @@ class HcodeGrid {
                         this.btnDeleteClick(e);
 
                     } else {
-
                         this.fireEvent('buttonClick', [e.target, this.getTrData(e), e]);
 
                     }
