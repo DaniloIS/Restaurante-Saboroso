@@ -76,12 +76,19 @@ class Pagination {
             nrend = limitPagesNav;
         }
         //Estamos chegando nas últimas páginas
-        else if((this.getCurrentPage() + parseInt(limitPagesNav/1)) > this.getTotalPages()) {
+        else if((this.getCurrentPage() + parseInt(limitPagesNav/2)) > this.getTotalPages()) {
             nrstart = this.getTotalPages() - limitPagesNav;
             nrend = this.getTotalPages();
         } else {
             nrstart = this.getCurrentPage() - parseInt(limitPagesNav/2);
             nrend = this.getCurrentPage() + parseInt(limitPagesNav/2);
+        }
+
+        if(this.getCurrentPage() > 1) {
+            links.push({
+                text: '«',
+                href: '?' + this.getQueryString(Object.assign({}, params ,{page: this.getCurrentPage()-1}))
+            });
         }
 
         for(let x = nrstart; x <= nrend; x++) {
@@ -92,6 +99,13 @@ class Pagination {
                 active: (x === this.getCurrentPage())
             });
 
+        }
+
+        if(this.getCurrentPage() < this.getTotalPages()) {
+            links.push({
+                text: '»',
+                href: '?' + this.getQueryString(Object.assign({}, params ,{page: this.getCurrentPage()+1}))
+            });
         }
 
         return links;
